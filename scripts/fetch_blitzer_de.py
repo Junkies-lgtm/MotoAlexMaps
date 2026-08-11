@@ -151,6 +151,16 @@ def fetch_bundesland_with_retry(bundesland: str, iso_code: str) -> list | None:
         try:
             result = query_overpass(query)
             elements = result.get("elements", [])
+
+            # Plausibilitaetscheck: ein technisch erfolgreicher Abruf mit 0
+            # Treffern ist fuer ein Bundesland (das garantiert feste Blitzer
+            # hat) fast immer ein Server-seitiges Problem bei Overpass, keine
+            # echte Datenlage. Wird als Fehlschlag gewertet -> erneuter
+            # Versuch, statt eine 0 als "letzten guten Stand" zu speichern.
+            if len(elements) == 0:
+                raise ValueError("Antwort kam durch, aber 0 Treffer -- vermutlich "
+                                  "unvollstaendige Overpass-Antwort, kein Erfolg")
+
             log.info("  %s: OK (%d Kameras, Versuch %d)",
                       bundesland, len(elements), attempt)
             return elements
