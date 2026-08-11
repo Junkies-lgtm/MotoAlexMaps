@@ -2,8 +2,11 @@ name: BRouter rd5-Kacheln aktualisieren
 
 on:
   schedule:
+    # Jeden Dienstag um 04:23 UTC (BRouter-Segmente werden laut brouter.de
+    # woechentlich neu erzeugt; ein Tag nach dem Blitzer-Lauf, um nicht
+    # beide gleichzeitig zu starten)
     - cron: "23 4 * * 2"
-  workflow_dispatch: {}
+  workflow_dispatch: {}   # erlaubt manuelles Anstoßen über den "Run workflow"-Button
 
 concurrency:
   group: rd5-fetch
@@ -12,7 +15,7 @@ concurrency:
 jobs:
   fetch-and-release:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 60   # 6 Kacheln a ~85MB, grosszuegig bemessen
     permissions:
       contents: write
 
@@ -26,7 +29,7 @@ jobs:
           python-version: "3.12"
 
       - name: rd5-Kacheln herunterladen
-        run: python scripts/fetch_rd5_germany.py --output-dir rd5-output
+        run: python scripts/fetch_rd5_germany.py --output-dir rd5-output --manifest-path manifest.json
 
       - name: Ergebnis als Artifact sichern
         uses: actions/upload-artifact@v4
@@ -36,6 +39,14 @@ jobs:
             rd5-output/*.rd5
             rd5-output/fetch_rd5_germany.log
           retention-days: 14
+
+      - name: manifest.json committen
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add manifest.json
+          git diff --cached --quiet || git commit -m "manifest.json: rd5-Abschnitt aktualisiert [skip ci]"
+          git push
 
       - name: Release aktualisieren
         uses: softprops/action-gh-release@v2
