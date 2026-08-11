@@ -1,0 +1,35 @@
+{
+  "generated_at": "2026-08-11T21:13:06.823277+00:00",
+  "rd5": {
+    "E5_N45": {
+      "version": "2026-08-11",
+      "size_bytes": 251183339,
+      "sha256": "73b2a84de8a1711cc002b1d2ef5ca94bee0ff23ec1adc3d461593c7f7b70affb"
+    },
+    "E5_N50": {
+      "version": "2026-08-11",
+      "size_bytes": 181555797,
+      "sha256": "29ba139b3c8b3951ad6eae47dee09c725cbc50d9a4500ffc325a34fc91f28b57"
+    },
+    "E5_N55": {
+      "version": "2026-08-11",
+      "size_bytes": 33583501,
+      "sha256": "47f2cf9708158d3c6e21b8ddeceb1aa08986a90aa78ffd4e1a3ca948abd11e67"
+    },
+    "E10_N45": {
+      "version": "2026-08-11",
+      "size_bytes": 197727047,
+      "sha256": "9c9d1d8986c2a8d4c27845b4fd41a9a6cc55c489d01d51c0fc556acf52a0bf45"
+    },
+    "E10_N50": {
+      "version": "2026-08-11",
+      "size_bytes": 124524179,
+      "sha256": "c07eae88f1a3352bd261190de822836cf90a670d5e62cd0a52f3189d768cbeab"
+    },
+    "E15_N50": {
+      "version": "2026-08-11",
+      "size_bytes": 89500030,
+      "sha256": "c5b5b457d47967d6da242ea66827be69f4ca182508d0576f32541be93f6600fb"
+    }
+  }
+}
