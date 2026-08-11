@@ -21,7 +21,10 @@ import argparse
 import logging
 import time
 import urllib.request
+from datetime import datetime, timezone
 from pathlib import Path
+
+from manifest_utils import sha256_of_file, update_section
 
 BASE_URL = "https://brouter.de/brouter/segments4"
 
@@ -45,6 +48,10 @@ def parse_args() -> argparse.Namespace:
                     help="Zielordner (Default: aktueller Ordner)")
     p.add_argument("--force", action="store_true",
                     help="Bereits vorhandene Kacheln trotzdem neu herunterladen")
+    p.add_argument("--manifest-path", type=Path, default=None,
+                    help="Pfad zum zentralen manifest.json (z.B. manifest.json im Repo-Root). "
+                         "Wird nicht angegeben, bleibt das Manifest unangetastet -- praktisch fuer "
+                         "lokale Testlaeufe ohne Repo-Kontext.")
     return p.parse_args()
 
 
@@ -137,6 +144,25 @@ def main() -> int:
               len(succeeded), len(skipped), len(failed))
     if failed:
         log.warning("Fehlgeschlagene Kacheln: %s", ", ".join(failed))
+
+    # Manifest aktualisieren -- nur mit den Kacheln, die tatsaechlich lokal
+    # vorliegen (egal ob gerade frisch geladen oder schon vorher da).
+    # Fehlgeschlagene Kacheln fehlen im Manifest-Abschnitt, damit die App
+    # dort nicht faelschlich eine "aktuelle" Version vermutet.
+    if args.manifest_path is not None:
+        rd5_section = {}
+        version = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        for tile in GERMANY_TILES:
+            tile_path = output_dir / f"{tile}.rd5"
+            if tile_path.exists():
+                rd5_section[tile] = {
+                    "version": version,
+                    "size_bytes": tile_path.stat().st_size,
+                    "sha256": sha256_of_file(tile_path),
+                }
+        update_section(args.manifest_path, "rd5", rd5_section)
+        log.info("Manifest aktualisiert: %s (%d Kacheln erfasst)",
+                  args.manifest_path, len(rd5_section))
 
     return 0 if not failed else 2
 
