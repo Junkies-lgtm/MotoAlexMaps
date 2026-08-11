@@ -37,6 +37,8 @@ import urllib.error
 from datetime import datetime, timezone
 from pathlib import Path
 
+from manifest_utils import sha256_of_file, update_section
+
 # ---------------------------------------------------------------------------
 # Konfiguration
 # ---------------------------------------------------------------------------
@@ -45,6 +47,7 @@ OUTPUT_DIR = Path(__file__).resolve().parent
 OUTPUT_FILE = OUTPUT_DIR / "blitzer_deutschland.json"
 STATE_DIR = OUTPUT_DIR / "blitzer_state"          # ein JSON pro Bundesland
 LOG_FILE = OUTPUT_DIR / "fetch_blitzer_de.log"
+MANIFEST_PATH = OUTPUT_DIR.parent / "manifest.json"   # Repo-Root, eine Ebene ueber scripts/
 
 RETRY_BUDGET_SECONDS = 10 * 60     # max. Wartezeit+Versuche PRO Bundesland
 INITIAL_BACKOFF_SECONDS = 5
@@ -245,6 +248,18 @@ def main() -> None:
 
     if failed:
         log.warning("Fehlende Bundeslaender in diesem Lauf: %s", ", ".join(failed))
+
+    # Manifest aktualisieren -- Version/Pruefsumme der Gesamtdatei, damit die
+    # App per raw-GitHub-URL pruefen kann, ob eine neue blitzer_deutschland.json
+    # vorliegt, ohne die (mehrere hundert KB grosse) Datei selbst laden zu muessen.
+    blitzer_section = {
+        "version": started.strftime("%Y-%m-%d"),
+        "size_bytes": OUTPUT_FILE.stat().st_size,
+        "sha256": sha256_of_file(OUTPUT_FILE),
+        "camera_count": len(all_elements),
+    }
+    update_section(MANIFEST_PATH, "blitzer", blitzer_section)
+    log.info("Manifest aktualisiert: %s", MANIFEST_PATH)
 
 
 if __name__ == "__main__":
