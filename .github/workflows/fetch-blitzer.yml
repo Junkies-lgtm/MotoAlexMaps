@@ -1,0 +1,61 @@
+name: Blitzer Deutschland aktualisieren
+
+on:
+  schedule:
+    # Jeden Montag um 03:17 UTC (nachts, außerhalb der Overpass-Stoßzeiten).
+    # Minute bewusst "krumm" gewählt, viele Cron-Jobs starten exakt zur vollen
+    # Stunde -> weniger Gedraenge auf den Overpass-Mirrors.
+    - cron: "17 3 * * 1"
+  workflow_dispatch: {}   # erlaubt manuelles Anstoßen über den "Run workflow"-Button
+
+concurrency:
+  group: blitzer-fetch
+  cancel-in-progress: false   # ein laufender Job wird nicht abgebrochen, neuer wartet
+
+jobs:
+  fetch-and-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45   # harte Obergrenze für den gesamten Job (Absicherung)
+    permissions:
+      contents: write   # noetig, um ein Release anzulegen/zu aktualisieren
+
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Blitzer abfragen
+        run: python scripts/fetch_blitzer_de.py
+
+      - name: Ergebnis als Artifact sichern (auch bei Fehlschlag im nächsten Schritt)
+        uses: actions/upload-artifact@v4
+        with:
+          name: blitzer-deutschland
+          path: |
+            scripts/blitzer_deutschland.json
+            scripts/fetch_blitzer_de.log
+          retention-days: 14
+
+      - name: Zustand der Bundesländer committen (Fallback für nächsten Lauf)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add scripts/blitzer_state
+          git diff --cached --quiet || git commit -m "Blitzer-Zwischenstand aktualisiert [skip ci]"
+          git push
+
+      - name: Release aktualisieren
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest-blitzer
+          name: "Blitzer Deutschland (automatisch aktualisiert)"
+          body: |
+            Automatisch generiert von fetch_blitzer_de.py am ${{ github.run_id }}.
+            Quelle: OpenStreetMap via Overpass API.
+          files: |
+            scripts/blitzer_deutschland.json
+            scripts/fetch_blitzer_de.log
