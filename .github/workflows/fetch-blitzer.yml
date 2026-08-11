@@ -40,12 +40,12 @@ jobs:
             scripts/fetch_blitzer_de.log
           retention-days: 14
 
-      - name: Zustand der Bundesländer committen (Fallback für nächsten Lauf)
+      - name: Zustand der Bundesländer + manifest.json committen
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add scripts/blitzer_state
-          git diff --cached --quiet || git commit -m "Blitzer-Zwischenstand aktualisiert [skip ci]"
+          git add scripts/blitzer_state manifest.json
+          git diff --cached --quiet || git commit -m "Blitzer-Zwischenstand + manifest.json aktualisiert [skip ci]"
           git push
 
       - name: Release aktualisieren
