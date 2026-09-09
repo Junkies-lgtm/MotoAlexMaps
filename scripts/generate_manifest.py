@@ -15,7 +15,7 @@ def fetch_release_assets(tag):
         headers={"User-Agent": "Mozilla/5.0", "Accept": "application/vnd.github.v3+json"}
     )
     
-    # Falls ein GitHub Token in den Umgebungsvariablen existiert (für höhere API Limits)
+    # Nutzt das GitHub Token aus der Umgebung für stabiles API-Limit
     if "GITHUB_TOKEN" in os.environ:
         req.add_header("Authorization", f"token {os.environ['GITHUB_TOKEN']}")
         
@@ -28,53 +28,52 @@ def fetch_release_assets(tag):
         return []
 
 def main():
-    print("Starte Manifest-Generierung aus GitHub Releases...")
+    print("Starte Manifest-Generierung (Option B: Fokus auf Dateigröße)...")
     
-    # 1. Assets von beiden Releases abrufen
+    # Assets von beiden Releases abrufen
     mbtiles_assets = fetch_release_assets("latest-mbtiles")
     brouter_assets = fetch_release_assets("latest-rd5")
     
     all_files = {}
     
-    # 2. MBTiles verarbeiten
+    # 1. MBTiles (Bundesländer) verarbeiten
     for asset in mbtiles_assets:
         name = asset["name"]
-        if name.endswith(".tmp") or name.endswith(".json"):
+        # Ignoriere Hilfsdateien oder temporäre Reste im Release
+        if name.endswith(".tmp") or name.endswith(".json") or name.endswith(".md"):
             continue
         all_files[name] = {
             "filename": name,
             "type": "mbtiles",
-            "size_bytes": asset["size"],
-            "sha256": "placeholder_wird_bei_erstellung_erzeugt", # Siehe Erklärung unten
+            "size_bytes": asset["size"],  # Exakte Bytegröße von GitHub
             "url": asset["browser_download_url"]
         }
         
-    # 3. BRouter-Kacheln verarbeiten
+    # 2. BRouter-Kacheln (.rd5) verarbeiten
     for asset in brouter_assets:
         name = asset["name"]
-        if name.endswith(".tmp") or name.endswith(".json"):
+        if name.endswith(".tmp") or name.endswith(".json") or name.endswith(".md"):
             continue
         all_files[name] = {
             "filename": name,
             "type": "brouter",
-            "size_bytes": asset["size"],
-            "sha256": "placeholder_wird_bei_erstellung_erzeugt",
+            "size_bytes": asset["size"],  # Exakte Bytegröße von GitHub
             "url": asset["browser_download_url"]
         }
 
-    # 4. Bundles definieren (Deutschland komplett)
+    # 3. Bundles definieren (Das "1-Klick-Deutschland-Paket")
     bundles = {
         "germany_complete": {
             "display_name": "Deutschland komplett",
-            "description": "Lädt alle verfügbaren Bundesländer und BRouter-Routing-Kacheln.",
+            "description": "Reiht alle verfügbaren Bundesländer und BRouter-Routing-Kacheln in die Warteschlange ein.",
             "required_files": list(all_files.keys())
         }
     }
     
-    # 5. Manifest zusammenbauen
+    # 4. Gesamt-Manifest zusammenbauen
     manifest = {
         "meta": {
-            "version": int(datetime.now().strftime("%Y%m%d%H%M")),
+            "version": int(datetime.now().strftime("%Y%m%d%H%M")), # Version als Timestamp (YYYYMMDDHHMM)
             "updated_at": datetime.now().isoformat(),
             "compatible_app_version": ">=1.0.0"
         },
@@ -82,11 +81,11 @@ def main():
         "files": all_files
     }
     
-    # 6. Speichern
+    # 5. Manifest speichern
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(manifest, f, indent=4, ensure_ascii=False)
         
-    print(f"Manifest erfolgreich mit {len(all_files)} Dateien erstellt!")
+    print(f"Erfolg! Manifest mit {len(all_files)} Dateien unter '{OUTPUT_FILE}' erstellt.")
 
 if __name__ == "__main__":
     main()
