@@ -23,7 +23,7 @@ jobs:
     - name: Manifest generieren
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: python generate_manifest.py
+      run: python scripts/generate_manifest.py
 
     - name: Manifest ins Repository pushen
       run: |
