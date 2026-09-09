@@ -1,0 +1,35 @@
+name: Generate Maps Manifest
+
+on:
+  schedule:
+    - cron: '0 3 * * *' # Läuft täglich um 03:00 Uhr nachts
+  workflow_dispatch: # Erlaubt manuelles Starten im GitHub-Dashboard
+
+jobs:
+  build-manifest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Erlaubt dem Bot, das aktualisierte Manifest ins Repo zu pushen
+
+    steps:
+    - name: Code auschecken
+      uses: actions/checkout@v4
+
+    - name: Python einrichten
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
+    - name: Manifest generieren
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: python generate_manifest.py
+
+    - name: Manifest ins Repository übertragen
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add maps_manifest.json
+        # Nur pushen, wenn sich das Manifest tatsächlich verändert hat
+        git diff-index --quiet HEAD || git commit -m "Automatisches Update des Karten-Manifests" -a
+        git push
