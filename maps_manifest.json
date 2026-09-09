@@ -1,0 +1,15 @@
+{
+    "meta": {
+        "version": 202609091543,
+        "updated_at": "2026-09-09T15:43:45.018813",
+        "compatible_app_version": ">=1.0.0"
+    },
+    "bundles": {
+        "germany_complete": {
+            "display_name": "Deutschland komplett",
+            "description": "Reiht alle verfügbaren Bundesländer und BRouter-Routing-Kacheln in die Warteschlange ein.",
+            "required_files": []
+        }
+    },
+    "files": {}
+}
