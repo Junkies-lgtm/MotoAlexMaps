@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-08T08:56:46.931335+00:00",
+  "generated_at": "2026-09-14T09:38:26.221851+00:00",
   "rd5": {
     "E5_N45": {
       "version": "2026-09-08",
@@ -33,9 +33,9 @@
     }
   },
   "blitzer": {
-    "version": "2026-09-07",
-    "size_bytes": 973096,
-    "sha256": "384c2138f59d92fde1e74fcdd900996ee729ccc086ade6ba907c3a4a6b0cc3f5",
-    "camera_count": 5184
+    "version": "2026-09-14",
+    "size_bytes": 968035,
+    "sha256": "1bf4dbddc3a4004eb03bf2fb2f724b9e29e18a9e4d088c25372a4ea20b5c9bd1",
+    "camera_count": 5161
   }
 }
