@@ -1,35 +1,35 @@
 {
-  "generated_at": "2026-11-10T12:49:00.605358+00:00",
+  "generated_at": "2026-11-17T13:40:25.765477+00:00",
   "rd5": {
     "E5_N45": {
-      "version": "2026-11-10",
-      "size_bytes": 253322902,
-      "sha256": "9fac9d0d463e880beb049e9135c98c9ed64417c98a2cc3e52bf7cc7bfb8a83f4"
+      "version": "2026-11-17",
+      "size_bytes": 253560693,
+      "sha256": "db9541784d6293492083ac3afb76e5ba1b1a996e4219f2436a3260ca56fa1ad7"
     },
     "E5_N50": {
-      "version": "2026-11-10",
-      "size_bytes": 182745096,
-      "sha256": "8570ddbdeecd7376d2d8f456647a32f40d360f05fa39777166b3d6fea5feeedd"
+      "version": "2026-11-17",
+      "size_bytes": 182891604,
+      "sha256": "ceb85bd6476acd5b25fc75097448d1b2844af1c532c2bb75139e5c638ceb9c2a"
     },
     "E5_N55": {
-      "version": "2026-11-10",
-      "size_bytes": 33798982,
-      "sha256": "6122cbb5f47c7a082ef021da9839a86e025f7ce745306f7f4d5cd8783df8305a"
+      "version": "2026-11-17",
+      "size_bytes": 33818848,
+      "sha256": "d60b9d2256e54e2e4d4928e06d4a49c145ccf0d5ab3537ed0c127fd95b477e64"
     },
     "E10_N45": {
-      "version": "2026-11-10",
-      "size_bytes": 199474911,
-      "sha256": "92608ed48de4d7fe477dc96804214a713d9ec90d547e1389b3a6808a5e0b8684"
+      "version": "2026-11-17",
+      "size_bytes": 199604945,
+      "sha256": "6f7bae76c0ee475ad60973c4e500bea1d761595766298ad0345c31bdf9dd5659"
     },
     "E10_N50": {
-      "version": "2026-11-10",
-      "size_bytes": 125373066,
-      "sha256": "710b881c00a6b567463dd8aa237dfce9121f9008d49ecb59a63036b38bc0a6ef"
+      "version": "2026-11-17",
+      "size_bytes": 125475781,
+      "sha256": "6ed8ab53c7047239982716a9d291a4d67bc157a5ae3fdb5fc677df2939158afe"
     },
     "E15_N50": {
-      "version": "2026-11-10",
-      "size_bytes": 90615358,
-      "sha256": "62abc727a26bfab85aa46121f203a7d894484db3b3ca90d5a9ee01e5602fa7b6"
+      "version": "2026-11-17",
+      "size_bytes": 90707110,
+      "sha256": "e688be7e93c350725745c8892ad0b3d6659b63581b77254298c1900d48d53a1c"
     }
   },
   "blitzer": {
