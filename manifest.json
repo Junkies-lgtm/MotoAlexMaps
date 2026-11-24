@@ -1,35 +1,35 @@
 {
-  "generated_at": "2026-11-17T13:40:25.765477+00:00",
+  "generated_at": "2026-11-24T15:01:52.958694+00:00",
   "rd5": {
     "E5_N45": {
-      "version": "2026-11-17",
-      "size_bytes": 253560693,
-      "sha256": "db9541784d6293492083ac3afb76e5ba1b1a996e4219f2436a3260ca56fa1ad7"
+      "version": "2026-11-24",
+      "size_bytes": 253790312,
+      "sha256": "1b3e97e819fc8f3a4e9e7ff2b2c77bad2a1a9bc1cd58f0cf49350c8a1410f9bf"
     },
     "E5_N50": {
-      "version": "2026-11-17",
-      "size_bytes": 182891604,
-      "sha256": "ceb85bd6476acd5b25fc75097448d1b2844af1c532c2bb75139e5c638ceb9c2a"
+      "version": "2026-11-24",
+      "size_bytes": 182996494,
+      "sha256": "951a32456e237f55ccb83f32cccae793f9b0076a923d01e9710933546b436971"
     },
     "E5_N55": {
-      "version": "2026-11-17",
-      "size_bytes": 33818848,
-      "sha256": "d60b9d2256e54e2e4d4928e06d4a49c145ccf0d5ab3537ed0c127fd95b477e64"
+      "version": "2026-11-24",
+      "size_bytes": 33841151,
+      "sha256": "b826c133f35436e0a3c80a30408a543ff7a5621183f3c4e1bf9c2a68d2b69aae"
     },
     "E10_N45": {
-      "version": "2026-11-17",
-      "size_bytes": 199604945,
-      "sha256": "6f7bae76c0ee475ad60973c4e500bea1d761595766298ad0345c31bdf9dd5659"
+      "version": "2026-11-24",
+      "size_bytes": 199729897,
+      "sha256": "c0df6284d04290e91e0478625584f34c64c31b61c81b13b1c6405499bf07e5f9"
     },
     "E10_N50": {
-      "version": "2026-11-17",
-      "size_bytes": 125475781,
-      "sha256": "6ed8ab53c7047239982716a9d291a4d67bc157a5ae3fdb5fc677df2939158afe"
+      "version": "2026-11-24",
+      "size_bytes": 125555952,
+      "sha256": "02468509fbf8c8aa4ff016f1de8c32cfc19cea82bc4915dca2e9795b60da3bc5"
     },
     "E15_N50": {
-      "version": "2026-11-17",
-      "size_bytes": 90707110,
-      "sha256": "e688be7e93c350725745c8892ad0b3d6659b63581b77254298c1900d48d53a1c"
+      "version": "2026-11-24",
+      "size_bytes": 90783111,
+      "sha256": "8619a9e09a8b3418ea16883ad48c46b330c109ae80efe0e58af531c5138daddd"
     }
   },
   "blitzer": {
